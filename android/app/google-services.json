@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "445152436180",
+    "project_id": "appavaliacao-5dae9",
+    "storage_bucket": "appavaliacao-5dae9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445152436180:android:1a2addb3f839edbeb70041",
+        "android_client_info": {
+          "package_name": "com.gabi.avaliacao_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApQuj-ZYTo6zCJxN94h0ECaRwB_WERaOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

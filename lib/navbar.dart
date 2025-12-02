@@ -1,6 +1,7 @@
+import 'package:avaliacao_app/carrinho.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
-
+import 'login.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -14,6 +15,8 @@ class _NavBarState extends State<NavBar> {
 
   final List<Widget> screens = const [
     HomePage(),
+    CarrinhoPage(),
+    Login(),
 
   ];
 
@@ -35,10 +38,8 @@ class _NavBarState extends State<NavBar> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Início"),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: "Livros"),
-          BottomNavigationBarItem(icon: Icon(Icons.coffee), label: "Café"),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Carrinho"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Login"),
         ],
       ),
     );
