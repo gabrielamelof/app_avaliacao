@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'carrinho_dados.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CarrinhoPage extends StatefulWidget {
   const CarrinhoPage({super.key});
@@ -17,6 +18,31 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
       total += item["preco"] * item["quantidade"];
     }
     return total;
+  }
+
+  Future<void> salvarCompra() async {
+    if (itens.isEmpty) return;
+
+    double entrega = 5.0;
+    double total = subtotal + entrega;
+
+    await FirebaseFirestore.instance.collection("compras").add({
+      "data": Timestamp.now(),            
+      "produtos": itens,                   
+      "quantidadeProdutos": itens.length,    
+      "subtotal": subtotal,                 
+      "entrega": entrega,
+      "total": total,                        
+    });
+
+    setState(() {
+      itens.clear();
+      carrinhoGlobal.clear();
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Compra registrada com sucesso!")),
+    );
   }
 
   @override
@@ -42,16 +68,13 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
       body: itens.isEmpty
           ? Center(
               child: Text(
-                "Seu carrinho está vazio ☕📚",
+                "Ops! Seu carrinho ainda está vazio :(",
                 style: TextStyle(fontSize: 20, color: Colors.brown),
               ),
             )
-
-          // ========= LISTVIEW PRINCIPAL =========
           : ListView(
               padding: EdgeInsets.all(20),
               children: [
-                // ========== LISTA DE ITENS ==========
                 ListView.builder(
                   itemCount: itens.length,
                   shrinkWrap: true,
@@ -69,7 +92,6 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 
                       child: Row(
                         children: [
-                          // IMAGEM
                           Container(
                             width: 120,
                             height: 120,
@@ -84,7 +106,6 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 
                           SizedBox(width: 20),
 
-                          // TEXTOS E QUANTIDADE
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +132,6 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 
                                 SizedBox(height: 15),
 
-                                // QUANTIDADE
                                 Container(
                                   width: 130,
                                   height: 45,
@@ -159,7 +179,6 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 
                           SizedBox(width: 20),
 
-                          // PREÇO
                           Text(
                             "R\$ ${item["preco"].toStringAsFixed(2)}",
                             style: TextStyle(
@@ -169,7 +188,6 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                             ),
                           ),
 
-                          // DELETAR
                           IconButton(
                             icon: Icon(Icons.delete, color: Colors.red[400]),
                             onPressed: () {
@@ -186,7 +204,6 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 
                 SizedBox(height: 20),
 
-                // =============== RESUMO DO PEDIDO ===============
                 Container(
                   padding: EdgeInsets.all(25),
                   decoration: BoxDecoration(
@@ -265,7 +282,9 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          onPressed: () {},
+
+                          onPressed: salvarCompra,
+
                           child: Text(
                             "Finalizar Compra",
                             style: TextStyle(fontSize: 18, color: Colors.white),

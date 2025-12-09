@@ -38,6 +38,8 @@ dependencies:
   carousel_slider: ^5.1.1
   firebase_core: ^4.2.1
   cloud_firestore: ^6.1.0
+  firebase_auth: ^6.1.2
+  http: ^1.2.0
   
 
 dev_dependencies:
